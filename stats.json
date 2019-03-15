@@ -1,0 +1,17 @@
+
+> calculator@1.0.0 build /media/reneedekruijf/OS/stack WD/zakelijk/front-end-development/projectjes/01-calculator
+> webpack --config=config/webpack.prod.js "profile" "--josn"
+
+Hash: 576429a60da5cefc1aae
+Version: webpack 4.19.1
+Time: 499ms
+Built at: 2018-11-17 20:36:32
+
+ERROR in Entry module not found: Error: Can't resolve 'profile' in '/media/reneedekruijf/OS/stack WD/zakelijk/front-end-development/projectjes/01-calculator'
+Child html-webpack-plugin for "index.html":
+     1 asset
+    Entrypoint undefined = index.html
+    [0] ./node_modules/html-webpack-plugin/lib/loader.js!./src/views/index.pug 3.45 KiB {0} [built]
+    [2] external "fs" 42 bytes {0} [optional] [built]
+    [3] ./node_modules/pug-loader/stringify.loader.js!./src/views/layout/layout.pug 2.79 KiB [built]
+        + 1 hidden module

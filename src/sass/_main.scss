@@ -1,0 +1,58 @@
+body {
+    background-color: $blackColor;
+    font-size: 100%;
+    box-sizing: border-box;
+    display: grid;
+}
+
+.wrapper {
+    display: grid;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.calculationSection {
+    background-color: $blackColor;
+    border: 1px solid $whiteColor;
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(6, 100px);
+    grid-gap: 10px;
+    
+    &__button {
+        color: $whiteColor;
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        align-items: center;
+        cursor: pointer;
+
+        &--special {
+            background-color: $greyColor;
+        }
+
+        &--operator {
+            background-color: $orangeColor;
+        }
+
+        &--number {
+            background-color: darken($greyColor, 40%);
+        }
+        
+        &--zero {
+            background-color: darken($greyColor, 40%);
+            grid-column: 1 / span 2;
+            justify-content: start;
+        }
+    }
+}
+
+.screenSection {
+    grid-column: 1 / span 4;
+    font-size: 3rem;
+    color: $whiteColor;
+    justify-self: end;
+    align-self: end;
+    padding-right: 1rem;
+}
+
