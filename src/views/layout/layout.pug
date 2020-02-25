@@ -2,8 +2,12 @@ doctype html
 html(lang="nl")
     head
         title Calculator
-        link(rel="stylesheet", href="main.css")
+        //- link(rel="stylesheet", href="main.css")
     body
+        section
+            h1 Een calculator bouwen!
+            p Dit is een van mijn side-projects waarin ik een rekenmachine bouw met HTML, CSS-Grid en ES6 Javascript. Het doel is een werkende rekenmachine maar het is natuurlijk ook de bedoeling om er iets van te leren. Op dit moment werkt alleen het optellen, aftrekken en de reset. Ik wil de rekenmachine eerst werkend maken en dan de Javascript code optimaliseren. Op dit moment is de site ook nog niet responsive. Dit wil ik nog gaan doen met CSS-grid. Ben je benieuwd naar de code achter dit project dan kan je deze bekijken op mijn 
+                a(href="https://github.com/webdesignpuntnl/calculator" target="_blank" rel="noopener noreferrer") Github. 
         .wrapper
             .calculationSection
                 .screenSection 0
@@ -25,4 +29,4 @@ html(lang="nl")
                 div(class="calculationSection calculationSection__button calculationSection__button--operator" data-value="operator") +
                 div(class="calculationSection calculationSection__button calculationSection__button--zero" data-value="number") 0
                 div(class="calculationSection calculationSection__button calculationSection__button--number" data-value=",") ,
-                div(class="calculationSection calculationSection__button calculationSection__button--operator" data-value="operator") =
+                div(class="calculationSection calculationSection__button calculationSection__button--operator" data-value="equal") =

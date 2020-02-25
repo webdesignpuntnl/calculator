@@ -1,23 +1,23 @@
 /* eslint-disable */
 
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin'); 
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const utils = require('./utils');
 
 module.exports = {
     entry: {
-        main: [ "./main.js" ] 
+        main: ["./main.js"]
     },
-    mode: "development",    
+    mode: "development",
     output: {
         filename: "[name]-bundle.js",
         path: path.resolve(__dirname, "../dist"),
         // publicPath: "/"
     },
-    devServer : {
+    devServer: {
         contentBase: "dist",
         overlay: true,
         // host: "0.0.0.0",
@@ -28,26 +28,26 @@ module.exports = {
         rules: [
             {
                 enforce: "pre",
-                test: /\.js$/, 
-                exclude: /node_modules/, 
+                test: /\.js$/,
+                exclude: /node_modules/,
                 loader: "eslint-loader"
             },
             {
-                test: /\.js$/, 
-                exclude: /node_modules/, 
+                test: /\.js$/,
+                exclude: /node_modules/,
                 loader: "babel-loader"
             },
             {
                 test: /\.s?[ac]ss$/,
-                use: [ 
+                use: [
                     MiniCssExtractPlugin.loader,
-                    { loader: "css-loader", options: { url: true, sourceMap: true} },
-                    { loader: "sass-loader", options: { sourceMap: true} }
+                    { loader: "css-loader", options: { url: true, sourceMap: true } },
+                    { loader: "sass-loader", options: { sourceMap: true } }
                 ]
             },
             {
                 test: /\.pug$/,
-                use: [ 
+                use: [
                     { loader: "pug-loader" }
                 ]
             },
@@ -58,7 +58,7 @@ module.exports = {
                         loader: "url-loader",
                         options: {
                             name: "[name].[ext]",
-                        } 
+                        }
                     }
                 ]
             }
@@ -66,9 +66,9 @@ module.exports = {
     },
     devtool: "inline-source-map",
     plugins: [
-        new CleanWebpackPlugin(['dist'], {
-            root: path.join(__dirname, '..')
-          }),
+        // new CleanWebpackPlugin(['dist'], {
+        //     root: path.join(__dirname, '..')
+        //   }),
         new MiniCssExtractPlugin({
             filename: "css/[name].css",
         }),

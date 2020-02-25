@@ -1,65 +1,72 @@
 /* eslint-disable */
 
-const buttons = document.querySelectorAll('.calculationSection__button');
+const buttons = Array.from(document.querySelectorAll('.calculationSection__button'));
 const outputScreen = document.querySelector('.screenSection');
-let firstPressed = [];
-let secondPressed = [];
-let result = []; // nadat er een operator is gebruikt stop je het resultaat hierin en rekent hier dan verder mee
-let operatorPressed = false;
 
-//! op basis van de operator die gebruikt wordt nadat result is gevuld ga je naar een psecifieke functie
-//! elke formule krijgt zijn eigen functie dus optellen, aftrekken enz. op basis van de operator key
-//*
-//?
-//TODO
 
-function number(data) {
-  const buttonNumber = parseInt(data.innerText, 0);
-  if(!operatorPressed) {
-    firstPressed.push(buttonNumber);
-    outputScreen.innerText = firstPressed.join('');
-  } else {
-    secondPressed.push(buttonNumber);
-    outputScreen.innerText = secondPressed.join('');
-  }
-}
+const calculations = {
+  initialInput: [],
+  nextInput: [],
+  resultInBetween: 0,
+  operator: '',
+  operatorPressed: false,
+  equalsignPressed: false,
 
-function operator(data) {
-  operatorPressed = true;
-  let first = parseInt(firstPressed.join(''), 0);
-  let second = parseInt(secondPressed.join(''), 0);
-  const operator = data.innerText;
-  if(second) doTheMath(first, second, operator);
-}
+  onScreen(event, item) {
+    item.push(event.target.innerText);
+    outputScreen.innerHTML = (item).join('');
+  },
 
-function doTheMath(first, second, operator) {
-  console.log(operator); //! krijgt '=' mee omdat dat als laatste geklikt wordt OOK EEN ARRAY MET OPERATORS??
-  result.push(first + second);
-  
-  
-  if (second) {
-    outputScreen.innerText = result;
-    firstPressed = [];
-    secondPressed = [];
-    operatorPressed = false;
-  }
-}
+  reset() {
+    this.initialInput = [],
+      this.nextInput = [],
+      this.resultInBetween = 0;
+    this.operator = '';
+    this.operatorPressed = false,
+      this.equalsignPressed = false
 
-function clearScreen() {
-  firstPressed = [];
-  secondPressed = [];
-  result = [];
-  outputScreen.innerText = '0';  
-}
+    outputScreen.innerHTML = 0;
+  },
 
-buttons.forEach((button) => {
-  button.addEventListener('click', function() {
-    if(this.dataset.value === 'number') {
-      number(this);
-    } else if(this.dataset.value === 'operator') {
-      operator(this);
-    } else if(this.dataset.value === 'reset') {
-      clearScreen();
+  calculate() {
+    if (this.operator === '+' && !this.equalsignPressed) {
+      this.resultInBetween = parseInt(this.initialInput.join('')) + parseInt(this.nextInput.join(''));
+      this.equalsignPressed = true;
+    } else if (this.equalsignPressed && this.operator === '+') {
+      this.resultInBetween = this.resultInBetween + parseInt(this.nextInput.join(''));
+    } else if (this.operator === '-' && !this.equalsignPressed) {
+      this.resultInBetween = parseInt(this.initialInput.join('')) - parseInt(this.nextInput.join(''));
+      this.equalsignPressed = true;
+    } else if (this.equalsignPressed && this.operator === '-') {
+      this.resultInBetween = this.resultInBetween - parseInt(this.nextInput.join(''));
     }
-  });
-});
+
+    outputScreen.innerHTML = this.resultInBetween;
+
+    this.initialInput = [];
+    this.nextInput = [];
+    this.operator = '';
+    this.operatorPressed = false;
+  }
+}
+
+const processInput = (e) => {
+
+  const { initialInput, nextInput, operatorPressed } = calculations;
+  let userInput = e.target.dataset.value;
+
+  if (userInput === 'number' && !operatorPressed) {
+    calculations.onScreen(e, initialInput);
+  } else if (userInput === 'operator') {
+    calculations.operator = e.target.innerText;
+    calculations.operatorPressed = true;
+  } else if (userInput === 'number' && operatorPressed) {
+    calculations.onScreen(e, nextInput);
+  } else if (userInput === 'equal') {
+    calculations.calculate();
+  } else if (userInput === 'reset') {
+    calculations.reset();
+  }
+}
+
+buttons.forEach(button => button.addEventListener('click', processInput));
