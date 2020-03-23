@@ -41,8 +41,8 @@ section {
   background-color: $blackColor;
   border: 1px solid $whiteColor;
   display: grid;
-  grid-template-columns: repeat(4, 100px);
-  grid-template-rows: repeat(6, 100px);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(120px, 1fr));
   grid-gap: 10px;
 
   &__button {

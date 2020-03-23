@@ -4,69 +4,90 @@ const buttons = Array.from(document.querySelectorAll('.calculationSection__butto
 const outputScreen = document.querySelector('.screenSection');
 
 
-const calculations = {
-  initialInput: [],
-  nextInput: [],
-  resultInBetween: 0,
-  operator: '',
-  operatorPressed: false,
-  equalsignPressed: false,
+let initialInput = [];
+let nextInput = [];
+let resultInBetween = 0;
+let operator = '';
+let operatorPressed = false;
+let equalsignPressed = false;
 
-  onScreen(event, item) {
-    item.push(event.target.innerText);
-    outputScreen.innerHTML = (item).join('');
-  },
 
-  reset() {
-    this.initialInput = [],
-      this.nextInput = [],
-      this.resultInBetween = 0;
-    this.operator = '';
-    this.operatorPressed = false,
-      this.equalsignPressed = false
+const onScreen = (event, item) => {
+  item.push(event.target.innerText);
+  outputScreen.innerHTML = item.join('');
+}
 
-    outputScreen.innerHTML = 0;
-  },
+const reset = () => {
+  initialInput = [];
+  nextInput = [];
+  resultInBetween = 0;
+  operator = '';
+  operatorPressed = false;
+  equalsignPressed = false;
 
-  calculate() {
-    if (this.operator === '+' && !this.equalsignPressed) {
-      this.resultInBetween = parseInt(this.initialInput.join('')) + parseInt(this.nextInput.join(''));
-      this.equalsignPressed = true;
-    } else if (this.equalsignPressed && this.operator === '+') {
-      this.resultInBetween = this.resultInBetween + parseInt(this.nextInput.join(''));
-    } else if (this.operator === '-' && !this.equalsignPressed) {
-      this.resultInBetween = parseInt(this.initialInput.join('')) - parseInt(this.nextInput.join(''));
-      this.equalsignPressed = true;
-    } else if (this.equalsignPressed && this.operator === '-') {
-      this.resultInBetween = this.resultInBetween - parseInt(this.nextInput.join(''));
-    }
+  outputScreen.innerHTML = 0;
+}
 
-    outputScreen.innerHTML = this.resultInBetween;
+const calculate = () => {
+  const intial = parseInt(initialInput.join(''));
+  const next = parseInt(nextInput.join(''));
 
-    this.initialInput = [];
-    this.nextInput = [];
-    this.operator = '';
-    this.operatorPressed = false;
+  if (operator === '+' && !equalsignPressed) {
+    equalsignPressed = true;
+    resultInBetween = intial + next;
+
+  } else if (equalsignPressed && operator === '+') {
+    resultInBetween = resultInBetween + next;
   }
+
+  if (operator === '-' && !equalsignPressed) {
+    resultInBetween = intial - next;
+    equalsignPressed = true;
+
+  } else if (equalsignPressed && operator === '-') {
+    resultInBetween = resultInBetween - next;
+  }
+
+  if (operator === 'x' && !equalsignPressed) {
+    resultInBetween = intial * next;
+    equalsignPressed = true;
+
+  } else if (equalsignPressed && operator === 'x') {
+    resultInBetween = resultInBetween * next;
+  }
+
+  if (operator === '/' && !equalsignPressed) {
+    resultInBetween = intial / next;
+    equalsignPressed = true;
+
+  } else if (equalsignPressed && operator === '/') {
+    resultInBetween = resultInBetween / next;
+  }
+
+  outputScreen.innerHTML = resultInBetween;
+
+  initialInput = [];
+  nextInput = [];
+  operator = '';
+  operatorPressed = false;
 }
 
 const processInput = (e) => {
 
-  const { initialInput, nextInput, operatorPressed } = calculations;
   let userInput = e.target.dataset.value;
 
-  if (userInput === 'number' && !operatorPressed) {
-    calculations.onScreen(e, initialInput);
-  } else if (userInput === 'operator') {
-    calculations.operator = e.target.innerText;
-    calculations.operatorPressed = true;
-  } else if (userInput === 'number' && operatorPressed) {
-    calculations.onScreen(e, nextInput);
-  } else if (userInput === 'equal') {
-    calculations.calculate();
-  } else if (userInput === 'reset') {
-    calculations.reset();
+  if (userInput === 'number' && !operatorPressed) onScreen(e, initialInput);
+
+  if (userInput === 'operator') {
+    operatorPressed = true;
+    return operator = e.target.innerText;
   }
+
+  if (userInput === 'number' && operatorPressed) onScreen(e, nextInput);
+
+  if (userInput === 'equal') calculate();
+
+  if (userInput === 'reset') reset();
 }
 
 buttons.forEach(button => button.addEventListener('click', processInput));
